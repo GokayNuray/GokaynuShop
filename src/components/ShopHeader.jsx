@@ -1,6 +1,7 @@
 import {Profile} from "./Profile";
 import {getCartLength} from "../services/ProfileServices";
 import {useEffect} from "react";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const sortMethods = [
     "Price(low to high)",
@@ -11,6 +12,8 @@ const sortMethods = [
 
 export function ShopHeader({sortMethod, setSortMethod}) {
     const cartLength = getCartLength();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         setTimeout(() => {
@@ -18,11 +21,17 @@ export function ShopHeader({sortMethod, setSortMethod}) {
         }, 3000);
     }, []);
 
+    const handleTitleClick = () => {
+        navigate("/");
+    }
+
+    const onMainPage = location.pathname === "/";
+
     return (
         <>
             <header
                 className="bg-gradient-to-r from-green-400 to-black p-3 flex justify-between align-middle fixed top-0 right-0 left-0 z-10">
-                <h1 className="text-5xl text-white font-bold ml-5 pointer-events-none select-none">Shop</h1>
+                <h1 className={"text-5xl text-white font-bold ml-5 select-none " + (onMainPage ? "pointer-events-none" : "cursor-pointer" )} onClick={handleTitleClick}>Shop</h1>
                 <div className="flex w-2/5">
                     <input type="text" placeholder="Search..."
                            className="bg-white text-black font-bold py-2 px-4 rounded-full mr-5 w-full peer ml-3 focus:ml-0"/>
