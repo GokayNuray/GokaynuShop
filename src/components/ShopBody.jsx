@@ -5,12 +5,12 @@ import {useEffect, useState} from "react";
 function ItemCard({item, i}) {
 
     const style= {
-        transform: "translateX(" + (i % 3) / 3 * 300 + "%) translateY(" + Math.floor(i / 3) / 3 * 300 + "%)",
-        zIndex: 100 - i
+        transform: "translateX(" + (i % 3) * 100 + "%) translateY(" + Math.floor(i / 3) * 100 + "%)",
+        zIndex: - i
     }
 
     return (
-        <div className="absolute bg-white p-5 m-5 rounded-lg shadow-lg transition duration-700" style={style}>
+        <div className="absolute bg-white w-[calc(33.33%-1rem)] p-5 m-5 rounded-lg shadow-lg transition duration-700" style={style}>
             <img src={item.img} alt={item.name} className="w-1/2 mx-auto"/>
             <h1 className="text-3xl font-bold">{item.name}</h1>
             <p className="text-xl font-bold">${item.price}</p>
@@ -33,7 +33,8 @@ export function ShopBody({sortMethod}) {
 
     return (
         <div>
-            <h1 className="text-center text-5xl font-sans">Disclaimer: this is not a real shop and the items sold here
+            <div className="h-32 bg-gradient-to-r from-green-400 to-black animate-shrinkAfterDelay"/>
+            <h1 className="text-center text-6xl font-sans">Disclaimer: this is not a real shop and the items sold here
                 are not real</h1>
             <div className="w-full h-full bg-cyan-500">
                 {items && items.map((item) => (
