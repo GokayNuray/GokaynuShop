@@ -17,6 +17,7 @@ export function ShopBody({sortMethod, search}) {
     const filteredItems = tempItems.filter(item => item.name.includes(search));
 
     return (
+        items &&
         <div>
             <div className="w-full h-full bg-cyan-500">
                 {items.map((item) => (
