@@ -28,7 +28,8 @@ export function ItemCard({item, i}) {
             <img src={item.img} alt={item.name} className="w-1/2 mx-auto"/>
             <h1 className="text-3xl font-bold">{item.name}</h1>
             <p className="text-xl font-bold">${item.price}</p>
-            <p>{item.description.substring(0, 10) + "..."}</p>
+            <p className="text-gray-700">{item.description.substring(0, 10) + "..."}</p>
+            <p>{item.sellerName} <img src={item.sellerImg} alt={item.sellerName} className="w-6 h-6 inline-block rounded-full"/></p>
         </button>
     )
 }
