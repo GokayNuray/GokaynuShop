@@ -1,5 +1,5 @@
 import {Profile} from "./Profile";
-import {getCartLength} from "../services/ProfileServices";
+import {getProfile} from "../services/ProfileServices";
 import {useEffect} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 
@@ -11,7 +11,6 @@ const sortMethods = [
 ];
 
 export function ShopHeader({sortMethod, setSortMethod, setSearch}) {
-    const cartLength = getCartLength();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -30,6 +29,8 @@ export function ShopHeader({sortMethod, setSortMethod, setSearch}) {
     }
 
     const onMainPage = location.pathname === "/";
+
+    const profile = getProfile();
 
     return (
         <>
@@ -53,12 +54,18 @@ export function ShopHeader({sortMethod, setSortMethod, setSearch}) {
                         sorted by:<br/>{sortMethods[sortMethod]}
                     </button>
                 </div>
-                <div className="flex">
+                {profile ?
+                    <div className="flex">
                     <button className="bg-white text-black font-bold py-2 px-4 rounded-full mr-5">
-                        {cartLength ? "Cart: " + cartLength + " items" : "Empty cart"}
+                        {profile.cart ? "Cart: " + profile.cart + " items" : "Empty cart"}
                     </button>
-                    <Profile/>
+                    <Profile profile={profile}/>
                 </div>
+                :
+                <button className="bg-white text-black font-bold py-2 px-4 rounded-full mr-5" onClick={() => navigate("/login")}>
+                    Login
+                </button>
+                }
             </header>
             {!sessionStorage.getItem("sawDisclaimer") &&
                 <div className="h-32 w-full bg-gradient-to-r from-green-400 to-black animate-shrinkAfterDelay"/>}

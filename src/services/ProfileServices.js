@@ -1,15 +1,14 @@
-export function getName() {
-    return "John Doe";
+export function fetchProfile() {
+    console.log("Fetching profile");
+    let profile = {
+        name: "John Doe",
+        balance: 1,
+        cart: 3,
+        profilePic: "https://www.w3schools.com/howto/img_avatar.png"
+    };
+    sessionStorage.setItem("profile", JSON.stringify(profile));
 }
 
-export function getBalance() {
-    return 1 + "$";
-}
-
-export function getCartLength() {
-    return 3;
-}
-
-export function getProfilePic() {
-    return "https://www.w3schools.com/howto/img_avatar.png";
+export function getProfile() {
+    return JSON.parse(sessionStorage.getItem("profile"));
 }
