@@ -10,7 +10,7 @@ const sortMethods = [
     "Oldest first"
 ];
 
-export function ShopHeader({sortMethod, setSortMethod}) {
+export function ShopHeader({sortMethod, setSortMethod, setSearch}) {
     const cartLength = getCartLength();
     const navigate = useNavigate();
     const location = useLocation();
@@ -20,6 +20,10 @@ export function ShopHeader({sortMethod, setSortMethod}) {
             sessionStorage.setItem("sawDisclaimer", 1);
         }, 3000);
     }, []);
+
+    const handleSearchChange = (e) => {
+        setSearch(e.target.value);
+    }
 
     const handleTitleClick = () => {
         navigate("/");
@@ -33,7 +37,7 @@ export function ShopHeader({sortMethod, setSortMethod}) {
                 className="bg-gradient-to-r from-green-400 to-black p-3 flex justify-between align-middle fixed top-0 right-0 left-0 z-10">
                 <h1 className={"text-5xl text-white font-bold ml-5 select-none " + (onMainPage ? "pointer-events-none" : "cursor-pointer" )} onClick={handleTitleClick}>Shop</h1>
                 <div className="flex w-2/5">
-                    <input type="text" placeholder="Search..."
+                    <input type="text" placeholder="Search..." onChange={handleSearchChange}
                            className="bg-white text-black font-bold py-2 px-4 rounded-full mr-5 w-full peer ml-3 focus:ml-0"/>
                     <button className="bg-white text-black font-bold py-2 px-4 rounded-full peer-focus:hidden">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20"

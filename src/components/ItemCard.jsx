@@ -14,10 +14,14 @@ export function ItemCard({item, i}) {
     }
 
     useEffect(() => {
-        setStyle({
-            transform: "translateX(" + (i % 3) * 100 + "%) translateY(" + Math.floor(i / 3) * 100 + "%)",
-            zIndex: -i
-        });
+        setStyle(i < 0 ? {
+                opacity: 0,
+                transform: "translateX(" + (-i % 3) * 100 + "%) translateY(" + Math.floor(-i / 3) * 100 + "%)",
+            } : {
+                transform: "translateX(" + (i % 3) * 100 + "%) translateY(" + Math.floor(i / 3) * 100 + "%)",
+                zIndex: -i
+            }
+        );
     }, [i]);
 
     return (

@@ -6,14 +6,15 @@ import {ItemPage} from "./ItemPage";
 
 export function ShopPage() {
     let [sortMethod, setSortMethod] = useState(0);
+    let [search, setSearch] = useState("");
     const location = useLocation();
     const {id} = useParams();
 
     return (
         <div>
-            <ShopHeader sortMethod={sortMethod} setSortMethod={setSortMethod}/>
+            <ShopHeader sortMethod={sortMethod} setSortMethod={setSortMethod} setSearch={setSearch}/>
             {location.pathname === "/" ?
-                <ShopBody sortMethod={sortMethod}/>
+                <ShopBody sortMethod={sortMethod} search={search}/>
                 :
                 <div>
                     <ItemPage id={id}/>
