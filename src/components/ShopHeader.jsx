@@ -1,6 +1,6 @@
 import {Profile} from "./Profile";
 import {getProfile} from "../services/ProfileServices";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 
 const sortMethods = [
@@ -11,6 +11,7 @@ const sortMethods = [
 ];
 
 export function ShopHeader({sortMethod, setSortMethod, setSearch}) {
+    const [profile, setProfile] = useState()
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -18,6 +19,10 @@ export function ShopHeader({sortMethod, setSortMethod, setSearch}) {
         setTimeout(() => {
             sessionStorage.setItem("sawDisclaimer", 1);
         }, 3000);
+    }, []);
+
+    useEffect(() => {
+        getProfile(setProfile);
     }, []);
 
     const handleSearchChange = (e) => {
@@ -30,13 +35,12 @@ export function ShopHeader({sortMethod, setSortMethod, setSearch}) {
 
     const onMainPage = location.pathname === "/";
 
-    const profile = getProfile();
-
     return (
         <>
             <header
                 className="bg-gradient-to-r from-green-400 to-black p-3 flex justify-between align-middle fixed top-0 right-0 left-0 z-10">
-                <h1 className={"text-5xl text-white font-bold ml-5 select-none " + (onMainPage ? "pointer-events-none" : "cursor-pointer" )} onClick={handleTitleClick}>Shop</h1>
+                <h1 className={"text-5xl text-white font-bold ml-5 select-none " + (onMainPage ? "pointer-events-none" : "cursor-pointer")}
+                    onClick={handleTitleClick}>Shop</h1>
                 <div className="flex w-2/5">
                     <input type="text" placeholder="Search..." onChange={handleSearchChange}
                            className="bg-white text-black font-bold py-2 px-4 rounded-full mr-5 w-full peer ml-3 focus:ml-0"/>
@@ -55,16 +59,20 @@ export function ShopHeader({sortMethod, setSortMethod, setSearch}) {
                     </button>
                 </div>
                 {profile ?
-                    <div className="flex">
-                    <button className="bg-white text-black font-bold py-2 px-4 rounded-full mr-5">
-                        {profile.cart ? "Cart: " + profile.cart + " items" : "Empty cart"}
+                    profile === "wait" ?
+                        <h1 className="text-white font-bold mr-5">Loading...</h1>
+                        :
+                        <div className="flex">
+                            <button className="bg-white text-black font-bold py-2 px-4 rounded-full mr-5">
+                                {profile.cart ? "Cart: " + profile.cart + " items" : "Empty cart"}
+                            </button>
+                            <Profile profile={profile}/>
+                        </div>
+                    :
+                    <button className="bg-white text-black font-bold py-2 px-4 rounded-full mr-5"
+                            onClick={() => navigate("/login")}>
+                        Login
                     </button>
-                    <Profile profile={profile}/>
-                </div>
-                :
-                <button className="bg-white text-black font-bold py-2 px-4 rounded-full mr-5" onClick={() => navigate("/login")}>
-                    Login
-                </button>
                 }
             </header>
             {!sessionStorage.getItem("sawDisclaimer") &&
