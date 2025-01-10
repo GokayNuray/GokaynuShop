@@ -65,6 +65,12 @@ export function createProfile(login, callback) {
 
 export function fetchProfile(login, callback) {
     console.log("Fetching profile");
+    const fixImagePaths = (profile) => {
+        if (profile.profilePic !== undefined) {
+            profile.profilePic = API + "avatars/" + profile.profilePic;
+        }
+    }
+
     fetch(API + "login-user", {
         method: "POST",
         headers: {
@@ -74,6 +80,7 @@ export function fetchProfile(login, callback) {
     })
         .then(response => response.json())
         .then(data => {
+            fixImagePaths(data);
             callback(data);
         });
 }
