@@ -17,7 +17,7 @@ export function ShopPage() {
                 <ShopBody sortMethod={sortMethod} search={search}/>
                 :
                 <div>
-                    <ItemPage id={id}/>
+                    <ItemPage id={parseInt(id)}/>
                 </div>
             }
         </div>

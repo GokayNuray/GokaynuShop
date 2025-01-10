@@ -1,5 +1,3 @@
-import {getShopItems} from "../services/ShopServices";
-
 export function sortItems(items, sortMethod) {
     return items.sort((a, b) => {
         switch (sortMethod) {
@@ -15,9 +13,4 @@ export function sortItems(items, sortMethod) {
                 throw new Error("Invalid sort method");
         }
     });
-}
-
-export function getItemById(id) {
-    let items = getShopItems();
-    return items.find(item => item.id === parseInt(id));
 }

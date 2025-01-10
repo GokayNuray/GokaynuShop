@@ -1,3 +1,5 @@
+import {API} from "./ProfileServices";
+
 export class ShopItem {
     constructor(id, name, price, description, img, date, sellerImg, sellerName) {
         this.id = id;
@@ -11,22 +13,38 @@ export class ShopItem {
     }
 }
 
-function fetchShopItems() {
-    console.log("Fetching items");
-    let items = [];
-    for (let i = 0; i < 17; i++) {
-        items.push(new ShopItem(i, "Item " + i, 10 + i, (`Description for item ${i} \n`).repeat(40), "https://www.w3schools.com/howto/img_avatar.png", new Date(Math.random() * 100000000000), "https://www.w3schools.com/howto/img_avatar.png", "John Merchant"));
-    }
+function fetchShopItems(callback) {
+    console.log("Fetching shop items");
+    fetch(API + "get-items", {
+        method: "GET",
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data.data);
+            let items = [];
+            for (let item of data.data) {
+                items.push(new ShopItem(item.id, item.name, item.price, item.description, API + "avatars/items/" + item.id, item.date, "https://via.placeholder.com/150", "Unknown"));
+            }
+            callback(items);
+        });
+}
+
+export function saveShopItems(items) {
     sessionStorage.setItem("items", JSON.stringify(items));
 }
 
-export function getShopItems() {
+export function getShopItems(setItems) {
     let items = JSON.parse(sessionStorage.getItem("items"));
     if (!items) {
-        fetchShopItems();
-        items = JSON.parse(sessionStorage.getItem("items"));
+        setItems("wait");
+        saveShopItems("wait");
+        fetchShopItems((response) => {
+            saveShopItems(response);
+            setItems(response);
+        });
+    } else {
+        setItems(items);
     }
-    return items;
 }
 
 export function createShopItem(owner, item, callback) {
