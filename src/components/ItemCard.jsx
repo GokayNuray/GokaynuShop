@@ -43,7 +43,7 @@ export function ItemCard({item, i}) {
                 <p>Loading...</p>
                 :
                 <p>{sellerProfile.name} <img src={sellerProfile.profilePic} alt={sellerProfile.name}
-                                          className="w-6 h-6 inline-block rounded-full"/></p>)}
+                                          className="w-8 h-8 inline-block rounded-full"/></p>)}
         </button>
     )
 }
