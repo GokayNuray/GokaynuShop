@@ -1,4 +1,4 @@
-const API = "https://nameless.gokaynu.workers.dev/"
+export const API = "https://nameless.gokaynu.workers.dev/"
 
 export function saveLogin(name, password) {
     const login = {
@@ -48,8 +48,11 @@ export function logOut() {
     window.location.reload();
 }
 
+const fixImagePaths = (profile) => {
+    profile.profilePic = API + "avatars/" + profile.profilePic;
+}
+
 export function createProfile(login, callback) {
-    console.log("Creating profile");
     fetch(API + "create-user", {
         method: "POST",
         headers: {
@@ -59,16 +62,12 @@ export function createProfile(login, callback) {
     })
         .then(response => response.json())
         .then(data => {
+            fixImagePaths(data);
             callback(data);
         })
 }
 
 export function fetchProfile(login, callback) {
-    console.log("Fetching profile");
-    const fixImagePaths = (profile) => {
-            profile.profilePic = API + "avatars/" + profile.profilePic;
-    }
-
     fetch(API + "login-user", {
         method: "POST",
         headers: {
@@ -90,6 +89,24 @@ export function changeName(id, newName, callback) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({id: id, newName: newName}),
+    })
+        .then(response => response.json())
+        .then(data => {
+            callback(data);
+        });
+}
+
+export function changeAvatar(id, avatar, callback) {
+    const formData = new FormData();
+    formData.append("avatar", avatar);
+    formData.append("id", id);
+
+    fetch(API + "update-avatar", {
+        method: "POST",
+        headers: {
+            'Accept': '*/*',
+        },
+        body: formData,
     })
         .then(response => response.json())
         .then(data => {

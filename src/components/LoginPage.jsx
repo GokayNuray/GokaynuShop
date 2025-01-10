@@ -10,7 +10,6 @@ export function LoginPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(response);
         if (!response || response === "wait") return;
         if (response.name) {
             saveLogin(username, password);
