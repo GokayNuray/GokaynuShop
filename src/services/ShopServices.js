@@ -28,3 +28,20 @@ export function getShopItems() {
     }
     return items;
 }
+
+export function createShopItem(owner, item, callback) {
+    const formData = new FormData();
+    formData.append("name", item.name);
+    formData.append("price", item.price);
+    formData.append("description", item.description);
+    formData.append("avatar", item.avatar);
+    formData.append("owner", owner);
+    fetch("https://nameless.gokaynu.workers.dev/create-item", {
+        method: "POST",
+        body: formData,
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            callback(data);
+        });
+}

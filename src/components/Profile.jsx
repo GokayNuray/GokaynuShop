@@ -1,10 +1,12 @@
 import {API, changeAvatar, changeName, getLogin, logOut, saveLogin, saveProfile} from "../services/ProfileServices";
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 export function Profile({profile}) {
     const [edit, setEdit] = useState(false);
     const [uploadAvatar, setUploadAvatar] = useState(false);
     const [newName, setNewName] = useState("");
+    const navigate = useNavigate();
 
     const handleAvatarClick = () => {
         if (!edit) return;
@@ -55,7 +57,8 @@ export function Profile({profile}) {
                        onChange={(e) => setNewName(e.target.value)}/>
                 <button className="bg-black text-white font-bold w-full h-1/5"
                         onClick={toggleEdit}>{edit ? "Stop editing" : "Edit profile"}</button>
-                <button className="bg-yellow-200 font-bold w-full h-1/5">Balance: {profile.balance}</button>
+                <button className="bg-orange-200 font-bold w-full h-1/5">Balance: {profile.balance}</button>
+                <button className="bg-yellow-200 font-bold w-full h-1/5" onClick={() => navigate("/sell")}>Sell Items</button>
                 <button className="bg-red-500 font-bold w-full h-1/5" onClick={logOut}>Logout</button>
             </div>
             {uploadAvatar && <input type="file" className="fixed top-1/2 left-1/2 size-1/3" onChange={(e) => {
