@@ -113,3 +113,41 @@ export function changeAvatar(id, avatar, callback) {
             callback(data);
         });
 }
+
+function saveOtherProfile(profile, id) {
+    sessionStorage.setItem("profile" + id, JSON.stringify(profile));
+}
+
+export function fetchOtherProfile(id, callback) {
+    console.log(`fetching profile of ${id}`);
+    fetch(API + "get-user", {
+        method: "POST",
+        body: JSON.stringify({id: id}),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            fixImagePaths(data);
+            callback(data);
+        });
+}
+
+export function getOtherProfile(id, setProfile) {
+    let profile = JSON.parse(sessionStorage.getItem("profile" + id));
+    if (!profile) {
+        setProfile("wait");
+        saveOtherProfile("wait", id);
+        fetchOtherProfile(id, (response) => {
+            if (response.error) {
+                console.error(response.error);
+                alert(response.error);
+                setProfile(null);
+            } else {
+                saveOtherProfile(response, id);
+                setProfile(response);
+            }
+        });
+    } else {
+        setProfile(profile);
+    }
+}

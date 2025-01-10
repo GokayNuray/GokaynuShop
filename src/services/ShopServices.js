@@ -1,29 +1,26 @@
 import {API} from "./ProfileServices";
 
 export class ShopItem {
-    constructor(id, name, price, description, img, date, sellerImg, sellerName) {
+    constructor(id, name, price, description, img, date, owner) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
         this.img = img;
         this.date = date;
-        this.sellerImg = sellerImg;
-        this.sellerName = sellerName;
+        this.owner = owner;
     }
 }
 
 function fetchShopItems(callback) {
-    console.log("Fetching shop items");
     fetch(API + "get-items", {
         method: "GET",
     })
         .then((response) => response.json())
         .then((data) => {
-            console.log(data.data);
             let items = [];
             for (let item of data.data) {
-                items.push(new ShopItem(item.id, item.name, item.price, item.description, API + "avatars/items/" + item.id, item.date, "https://via.placeholder.com/150", "Unknown"));
+                items.push(new ShopItem(item.id, item.name, item.price, item.description, API + "avatars/items/" + item.id, item.date, item.owner));
             }
             callback(items);
         });
