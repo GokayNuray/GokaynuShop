@@ -1,9 +1,8 @@
-import {ShopHeader} from "./ShopHeader";
 import {createProfile, fetchProfile, saveLogin, saveProfile} from "../services/ProfileServices";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 
-export function LoginPage() {
+export function LoginPage({setProfile}) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [response, setResponse] = useState({});
@@ -13,6 +12,7 @@ export function LoginPage() {
         if (!response || response === "wait") return;
         if (response.name) {
             saveLogin(username, password);
+            setProfile(response);
             saveProfile(response);
             navigate("/");
         }
@@ -47,7 +47,6 @@ export function LoginPage() {
 
     return (
         <>
-            <ShopHeader/>
             <div className="w-full max-w-md mx-auto mt-10 p-8 bg-white rounded-lg shadow-lg">
                 <h1 className="text-center text-3xl font-bold mb-6">Log in or Sign up</h1>
                 <input disabled={response === "wait"}

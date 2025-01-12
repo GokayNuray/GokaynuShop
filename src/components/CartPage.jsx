@@ -1,19 +1,11 @@
 import {useEffect, useState} from "react";
-import {getProfile, removeFromCart, saveProfile} from "../services/ProfileServices";
-import {getShopItems} from "../services/ShopServices";
+import {removeFromCart, saveProfile} from "../services/ProfileServices";
 import {ListItem} from "./ListItem";
-import {ShopHeader} from "./ShopHeader";
 
-export function CartPage() {
-    const [profile, setProfile] = useState();
-    const [items, setItems] = useState();
+export function CartPage({profile, setProfile, items}) {
     const [total, setTotal] = useState(0);
     const [counts, setCounts] = useState({});
 
-    useEffect(() => {
-        getProfile(setProfile);
-        getShopItems(setItems);
-    }, []);
 
     useEffect(() => {
         if (profile?.cart && items) {
@@ -52,15 +44,11 @@ export function CartPage() {
 
     return (
         <div>
-            <ShopHeader/>
             <h1 className="text-4xl font-bold mt-10 m-4">Your Cart</h1>
             {(profile && items && profile !== "wait" && items !== "wait") ? (
                 <div className="px-4">
                     {Object.keys(profile.cart).map((key) => {
-                        console.log(key);
-                        console.log(items);
                         const item = items.find(item => item.id === parseInt(key));
-                        console.log(item);
                         return (
                             <ListItem key={key} item={item} count={counts[key] || 0} setCount={(count) => setCount(item, count)}
                                       onDelete={() => handleDelete(item)}/>

@@ -1,20 +1,13 @@
 import {useEffect, useState} from "react";
-import {getShopItems} from "../services/ShopServices";
-import {addToCart, getOtherProfile, getProfile, saveProfile} from "../services/ProfileServices";
-import {useNavigate} from "react-router-dom";
+import {addToCart, getOtherProfile, saveProfile} from "../services/ProfileServices";
+import {useNavigate, useParams} from "react-router-dom";
 
-export function ItemPage({id}) {
-    const [items, setItems] = useState(null);
-    const [profile, setProfile] = useState(null);
-    const item = items && items !== "wait" && items.find(item => item.id === id);
+export function ItemPage({items, profile, setProfile}) {
+    const {id} = useParams();
+    const item = items && items !== "wait" && items.find(item => item.id === parseInt(id));
     const [seller, setSeller] = useState(null);
     const [cartStatus, setCartStatus] = useState("Add to Cart");
     const navigate = useNavigate();
-
-    useEffect(() => {
-        getShopItems(setItems);
-        getProfile(setProfile);
-    }, []);
 
     useEffect(() => {
         if (profile?.cart && items) {
@@ -24,10 +17,9 @@ export function ItemPage({id}) {
     }, [id, items, profile]);
 
     useEffect(() => {
-        if (!items || items === "wait") return;
-        const item = items.find(item => item.id === id);
+        if (item || !items || items === "wait") return;
         getOtherProfile(item.owner, setSeller);
-    }, [id, items]);
+    }, [id, item, items]);
 
     const handleClick = () => {
         if (cartStatus === "Add to Cart") {
@@ -38,6 +30,7 @@ export function ItemPage({id}) {
                 } else {
                     profile.cart = data;
                     saveProfile(profile);
+                    setProfile({...profile});
                     alert("Item added to cart");
                     setCartStatus("In Cart");
                 }

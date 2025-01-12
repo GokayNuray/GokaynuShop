@@ -1,6 +1,5 @@
 import {Profile} from "./Profile";
-import {getProfile} from "../services/ProfileServices";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 
 const sortMethods = [
@@ -10,8 +9,7 @@ const sortMethods = [
     "Oldest first"
 ];
 
-export function ShopHeader({sortMethod, setSortMethod, setSearch}) {
-    const [profile, setProfile] = useState()
+export function ShopHeader({sortMethod, setSortMethod, setSearch, profile}) {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -19,10 +17,6 @@ export function ShopHeader({sortMethod, setSortMethod, setSearch}) {
         setTimeout(() => {
             sessionStorage.setItem("sawDisclaimer", 1);
         }, 3000);
-    }, []);
-
-    useEffect(() => {
-        getProfile(setProfile);
     }, []);
 
     const handleSearchChange = (e) => {

@@ -80,7 +80,6 @@ export function fetchProfile(login, callback) {
         .then(data => {
             fixImagePaths(data);
             data.cart = JSON.parse(data.cart);
-            console.log(data.cart);
             callback(data);
         });
 }

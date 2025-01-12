@@ -21,7 +21,7 @@ export function ListItem({item, count, setCount, onDelete}) {
                 { count > 0 && <button onClick={() => setCount(count - 1)} className="bg-red-500 text-white px-4 py-2 rounded">-</button>}
                 <p className="text-2xl">{count}</p>
                 <button onClick={() => setCount(count + 1)} className="bg-green-500 text-white px-4 py-2 rounded">+</button>
-                <button disabled={deleting} onClick={handleDelete} className="bg-red-500 text-white px-4 py-2 rounded">{deleting ? "Deleting..." : "Delete"}</button>
+                <button disabled={deleting} onClick={handleDelete} className="bg-red-500 text-white px-4 py-2 rounded">{deleting ? "Removing..." : "Remove"}</button>
             </div>
         </div>
     )

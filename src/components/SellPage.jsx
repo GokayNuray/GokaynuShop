@@ -1,16 +1,9 @@
-import {ShopHeader} from "./ShopHeader";
-import {useEffect, useState} from "react";
-import {getProfile} from "../services/ProfileServices";
+import {useState} from "react";
 import {createShopItem} from "../services/ShopServices";
 
-export function SellPage() {
-    const [profile, setProfile] = useState();
+export function SellPage({profile}) {
     const [showSell, setShowSell] = useState(false);
     const [preview, setPreview] = useState(null);
-
-    useEffect(() => {
-        getProfile(setProfile);
-    }, []);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -27,7 +20,6 @@ export function SellPage() {
 
     return (
         <div>
-            <ShopHeader/>
             <button onClick={() => setShowSell(true)}
                     className="bg-black text-white mt-5 size-64 font-bold">Sell an item
             </button>
