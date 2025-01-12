@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {getProfile} from "../services/ProfileServices";
+import {getProfile, removeFromCart, saveProfile} from "../services/ProfileServices";
 import {getShopItems} from "../services/ShopServices";
 import {ListItem} from "./ListItem";
 import {ShopHeader} from "./ShopHeader";
@@ -15,6 +15,20 @@ export function CartPage() {
         getShopItems(setItems);
     }, []);
 
+    useEffect(() => {
+        if (profile?.cart && items) {
+            const counts = {};
+            let total = 0;
+            Object.keys(profile.cart).forEach((key) => {
+                const item = items.find(item => item.id === parseInt(key));
+                total += item.price * profile.cart[key];
+                counts[key] = profile.cart[key];
+            });
+            setCounts(counts);
+            setTotal(total);
+        }
+    }, [items, profile]);
+
     const setCount = (item, count) => {
         const newCounts = {...counts};
         let totalWithoutItem = total - (newCounts[item.id] || 0) * item.price;
@@ -24,11 +38,16 @@ export function CartPage() {
     }
 
     const handleDelete = (item) => {
-        const newCounts = {...counts};
-        let totalWithoutItem = total - (newCounts[item.id] || 0) * item.price;
-        delete newCounts[item.id];
-        setCounts(newCounts);
-        setTotal(totalWithoutItem);
+        removeFromCart(profile.id, item, (data) => {
+            if (data.error) {
+                alert(data.error);
+            } else {
+                alert("Item removed from cart");
+                profile.cart = data;
+                saveProfile(profile);
+                setProfile({...profile});
+            }
+        });
     }
 
     return (

@@ -1,22 +1,51 @@
 import {useEffect, useState} from "react";
 import {getShopItems} from "../services/ShopServices";
-import {getOtherProfile} from "../services/ProfileServices";
+import {addToCart, getOtherProfile, getProfile, saveProfile} from "../services/ProfileServices";
+import {useNavigate} from "react-router-dom";
 
 export function ItemPage({id}) {
     const [items, setItems] = useState(null);
+    const [profile, setProfile] = useState(null);
     const item = items && items !== "wait" && items.find(item => item.id === id);
     const [seller, setSeller] = useState(null);
+    const [cartStatus, setCartStatus] = useState("Add to Cart");
+    const navigate = useNavigate();
 
     useEffect(() => {
         getShopItems(setItems);
+        getProfile(setProfile);
     }, []);
+
+    useEffect(() => {
+        if (profile?.cart && items) {
+            const cart = profile.cart;
+            if (cart[id]) setCartStatus("In Cart");
+        }
+    }, [id, items, profile]);
 
     useEffect(() => {
         if (!items || items === "wait") return;
         const item = items.find(item => item.id === id);
         getOtherProfile(item.owner, setSeller);
-
     }, [id, items]);
+
+    const handleClick = () => {
+        if (cartStatus === "Add to Cart") {
+            setCartStatus("Adding...");
+            addToCart(profile.id, item, (data) => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    profile.cart = data;
+                    saveProfile(profile);
+                    alert("Item added to cart");
+                    setCartStatus("In Cart");
+                }
+            });
+        } else if (cartStatus === "In Cart") {
+            navigate("/cart");
+        }
+    }
 
     return (
         items && (items === "wait" ?
@@ -37,8 +66,8 @@ export function ItemPage({id}) {
                                                                                     className="size-12 inline-block rounded-full"/>
                     </p>)}
                 <p className="text-right text-2xl text-blue-600 mb-4">${item.price}</p>
-                <button className="block ml-auto bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-800">
-                    Add to Cart
+                <button className="block ml-auto bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-800" onClick={handleClick} disabled={cartStatus === "Adding..."}>
+                    {cartStatus}
                 </button>
             </div>)
     )

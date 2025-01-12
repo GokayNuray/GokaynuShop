@@ -122,14 +122,12 @@ function saveOtherProfile(profile, id) {
 }
 
 export function fetchOtherProfile(id, callback) {
-    console.log(`fetching profile of ${id}`);
     fetch(API + "get-user", {
         method: "POST",
         body: JSON.stringify({id: id}),
     })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             fixImagePaths(data);
             callback(data);
         });
@@ -153,4 +151,28 @@ export function getOtherProfile(id, setProfile) {
     } else {
         setProfile(profile);
     }
+}
+
+export function addToCart(id, item, callback) {
+    fetch(API + "cart", {
+        method: "POST",
+        body: JSON.stringify({id: id, item: item.id}),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            callback(data);
+        });
+}
+
+export function removeFromCart(id, item, callback) {
+    fetch(API + "cart", {
+        method: "DELETE",
+        body: JSON.stringify({id: id, item: item.id}),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            callback(data);
+        });
 }

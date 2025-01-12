@@ -1,4 +1,12 @@
+import {useState} from "react";
+
 export function ListItem({item, count, setCount, onDelete}) {
+    const [deleting, setDeleting] = useState(false);
+    const handleDelete = () => {
+        if (deleting) return;
+        setDeleting(true);
+        onDelete();
+    }
     return (
         <div className="flex flex-row items-center justify-between border-2 border-gray-200 p-2 rounded-xl ">
             <div className="flex flex-row items-center gap-4">
@@ -13,7 +21,7 @@ export function ListItem({item, count, setCount, onDelete}) {
                 { count > 0 && <button onClick={() => setCount(count - 1)} className="bg-red-500 text-white px-4 py-2 rounded">-</button>}
                 <p className="text-2xl">{count}</p>
                 <button onClick={() => setCount(count + 1)} className="bg-green-500 text-white px-4 py-2 rounded">+</button>
-                <button onClick={onDelete} className="bg-red-500 text-white px-4 py-2 rounded">Delete</button>
+                <button disabled={deleting} onClick={handleDelete} className="bg-red-500 text-white px-4 py-2 rounded">{deleting ? "Deleting..." : "Delete"}</button>
             </div>
         </div>
     )
