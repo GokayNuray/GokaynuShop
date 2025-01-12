@@ -3,6 +3,7 @@ import {ShopPage} from './components/ShopPage';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import {LoginPage} from "./components/LoginPage";
 import {SellPage} from "./components/SellPage";
+import {CartPage} from "./components/CartPage";
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
                 <Route path={"/item/:id"} element={<ShopPage/>}/>
                 <Route path="/login" element={<LoginPage/>}/>
                 <Route path="/sell" element={<SellPage/>}/>
+                <Route path={"/cart"} element={<CartPage/>}/>
                 <Route path="/*" element={<h1>404 Not Found</h1>}/>
             </Routes>
         </BrowserRouter>
