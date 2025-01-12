@@ -74,29 +74,29 @@ export function Profile({profile}) {
                  onClick={handleAvatarClick}
                  alt="pfp"/>
             <div
-                className="absolute left-0 bg-white opacity-0 h-0 overflow-hidden group-hover:h-80 group-hover:opacity-100 w-32 -translate-x-16 transition duration-500 flex-col">
-                <input disabled={!edit} className="text-left h-1/5" value={edit ? newName : profile.name}
+                className="absolute left-0 bg-white opacity-0 h-0 overflow-hidden group-hover:h-48 group-hover:opacity-100 w-32 -translate-x-16 transition duration-500 flex flex-col items-center shadow-lg border border-gray-300 rounded-lg p-2 space-y-1">
+                <input disabled={!edit} className={"text-center h-1/5 w-full p-1 rounded" + (edit && " border border-gray-300")} value={edit ? newName : profile.name}
                        onChange={(e) => setNewName(e.target.value)}/>
-                <button className="bg-black text-white font-bold w-full h-1/5"
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded w-full"
                         onClick={toggleEdit}>{edit ? "Stop editing" : "Edit profile"}</button>
-                <button className="bg-orange-200 font-bold w-full h-1/5">Balance: {profile.balance}</button>
-                <button className="bg-yellow-200 font-bold w-full h-1/5" onClick={() => navigate("/sell")}>Sell Items</button>
-                <button className="bg-red-500 font-bold w-full h-1/5" onClick={logOut}>Logout</button>
+                <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded w-full">Balance: {profile.balance}</button>
+                <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded w-full" onClick={() => navigate("/sell")}>Sell Items</button>
+                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded w-full" onClick={logOut}>Logout</button>
             </div>
             {uploadAvatar && (
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white p-6 rounded shadow-lg text-center">
                         <input type="file" id="fileInput" className="hidden" onChange={handleFileChange}/>
-                        <label htmlFor="fileInput" className="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">
+                        <label htmlFor="fileInput" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
                             Choose File
                         </label>
                         {preview && (
                             <div className="mt-4">
                                 <img src={preview} alt="Preview" className="mx-auto mb-4"/>
-                                <button className="bg-green-500 text-white font-bold py-2 px-4 rounded mr-2" onClick={handleConfirmUpload}>
+                                <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2" onClick={handleConfirmUpload}>
                                     Confirm
                                 </button>
-                                <button className="bg-red-500 text-white font-bold py-2 px-4 rounded" onClick={handleCancelUpload}>
+                                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={handleCancelUpload}>
                                     Cancel
                                 </button>
                             </div>
