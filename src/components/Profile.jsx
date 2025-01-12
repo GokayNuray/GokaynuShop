@@ -6,6 +6,8 @@ export function Profile({profile}) {
     const [edit, setEdit] = useState(false);
     const [uploadAvatar, setUploadAvatar] = useState(false);
     const [newName, setNewName] = useState("");
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [preview, setPreview] = useState("");
     const navigate = useNavigate();
 
     const handleAvatarClick = () => {
@@ -37,13 +39,33 @@ export function Profile({profile}) {
     }
 
     const avatarChangeCallback = (data) => {
-        console.log(data);
         if (profile.id === parseInt(data.id)) {
             profile.profilePic = API + "avatars/" + data.id;
             saveProfile(profile);
             alert("Avatar changed successfully. The changes may take a minute to show up.");
             window.location.reload();
         }
+    }
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        setSelectedFile(file);
+        setPreview(URL.createObjectURL(file));
+    }
+
+    const handleConfirmUpload = () => {
+        if (selectedFile) {
+            changeAvatar(profile.id, selectedFile, avatarChangeCallback);
+            setUploadAvatar(false);
+            setSelectedFile(null);
+            setPreview("");
+        }
+    }
+
+    const handleCancelUpload = () => {
+        setUploadAvatar(false);
+        setSelectedFile(null);
+        setPreview("");
     }
 
     return (
@@ -61,10 +83,27 @@ export function Profile({profile}) {
                 <button className="bg-yellow-200 font-bold w-full h-1/5" onClick={() => navigate("/sell")}>Sell Items</button>
                 <button className="bg-red-500 font-bold w-full h-1/5" onClick={logOut}>Logout</button>
             </div>
-            {uploadAvatar && <input type="file" className="fixed top-1/2 left-1/2 size-1/3" onChange={(e) => {
-                changeAvatar(profile.id, e.target.files[0], avatarChangeCallback);
-            }}/>
-            }
+            {uploadAvatar && (
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-6 rounded shadow-lg text-center">
+                        <input type="file" id="fileInput" className="hidden" onChange={handleFileChange}/>
+                        <label htmlFor="fileInput" className="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">
+                            Choose File
+                        </label>
+                        {preview && (
+                            <div className="mt-4">
+                                <img src={preview} alt="Preview" className="mx-auto mb-4"/>
+                                <button className="bg-green-500 text-white font-bold py-2 px-4 rounded mr-2" onClick={handleConfirmUpload}>
+                                    Confirm
+                                </button>
+                                <button className="bg-red-500 text-white font-bold py-2 px-4 rounded" onClick={handleCancelUpload}>
+                                    Cancel
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

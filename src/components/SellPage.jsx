@@ -7,15 +7,7 @@ export function SellPage({profile}) {
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setPreview(reader.result);
-            };
-            reader.readAsDataURL(file);
-        } else {
-            setPreview(null);
-        }
+        setPreview(URL.createObjectURL(file));
     };
 
     return (
