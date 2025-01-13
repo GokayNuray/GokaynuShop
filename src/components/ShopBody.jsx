@@ -16,7 +16,7 @@ export function ShopBody({sortMethod, search, items}) {
                 <div className="w-full h-full bg-cyan-500">
                     {items.map((item) => (
                         <ItemCard item={item}
-                                  i={item.name.includes(search) ? filteredItems.indexOf(item) : -tempItems.indexOf(item)}
+                                  i={item.name.includes(search) ? filteredItems.indexOf(item) : (-tempItems.indexOf(item) - 1)}
                                   key={item.id}/>
                     ))}
                 </div>
