@@ -1,7 +1,9 @@
 import {useState} from "react";
 import {createShopItem} from "../services/ShopServices";
+import {ListItem} from "./ListItem";
+import {sortItems} from "../utils/ShopUtils";
 
-export function SellPage({profile, setItems}) {
+export function SellPage({profile, items, setItems}) {
     const [showSell, setShowSell] = useState(false);
     const [sellStatus, setSellStatus] = useState("Sell");
     const [preview, setPreview] = useState(null);
@@ -11,8 +13,18 @@ export function SellPage({profile, setItems}) {
         setPreview(URL.createObjectURL(file));
     };
 
+    const myItems = items && items !== "wait" && items.filter((item) => item.owner === profile.id);
+    sortItems(myItems, 3);
+
     return (
         <div>
+            <div className="flex-col mt-10 px-2">
+                <h1 className="pl-4 mb-2 text-4xl font-bold">Your items</h1>
+                {myItems && myItems.map((item) => {
+                        return <ListItem key={item.id} item={item} count={-1}/>;
+                    }
+                )}
+            </div>
             <button onClick={() => setShowSell(true)}
                     className="bg-black text-white mt-5 size-64 font-bold">Sell an item
             </button>
@@ -57,7 +69,8 @@ export function SellPage({profile, setItems}) {
                                 <label className="mr-2">Price($)</label>
                                 <input required type="number" step="0.1"
                                        className="w-1/4 p-2 border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-                                <button disabled={sellStatus !== "Sell"} className="bg-black text-white p-2 rounded-r font-bold">{sellStatus}</button>
+                                <button disabled={sellStatus !== "Sell"}
+                                        className="bg-black text-white p-2 rounded-r font-bold">{sellStatus}</button>
                             </div>
                         </div>
                     </form>

@@ -50,7 +50,7 @@ function App() {
                 <Route path="/" element={<ShopBody items={items} sortMethod={sortMethod} search={search}/>}/>
                 <Route path={"/item/:id"} element={<ItemPage items={items} profile={profile} setProfile={setProfile}/>}/>
                 <Route path="/login" element={<LoginPage setProfile={setProfile}/>}/>
-                <Route path="/sell" element={<SellPage profile={profile} setItems={setItems}/>}/>
+                <Route path="/sell" element={<SellPage profile={profile} items={items} setItems={setItems}/>}/>
                 <Route path={"/cart"} element={<CartPage profile={profile} setProfile={setProfile} items={items}/>}/>
                 <Route path="/*" element={<h1>404 Not Found</h1>}/>
             </Routes>
