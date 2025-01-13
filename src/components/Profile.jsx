@@ -74,12 +74,12 @@ export function Profile({profile}) {
                  onClick={handleAvatarClick}
                  alt="pfp"/>
             <div
-                className="absolute left-0 bg-white opacity-0 h-0 overflow-hidden group-hover:h-48 group-hover:opacity-100 w-32 -translate-x-16 transition duration-500 flex flex-col items-center shadow-lg border border-gray-300 rounded-lg p-2 space-y-1">
-                <input disabled={!edit} className={"text-center h-1/5 w-full p-1 rounded" + (edit && " border border-gray-300")} value={edit ? newName : profile.name}
+                className="absolute left-0 bg-white opacity-0 overflow-hidden h-0 group-hover:h-fit group-hover:opacity-100 w-32 -translate-x-16 transition duration-500 flex flex-col items-center shadow-lg border-0 group-hover:border border-gray-300 rounded-lg p-0 group-hover:p-2 space-y-1">
+                <input disabled={!edit} className={"text-center h-fit w-full p-1 rounded" + (edit && " border border-gray-300")} value={edit ? newName : profile.name}
                        onChange={(e) => setNewName(e.target.value)}/>
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded w-full"
                         onClick={toggleEdit}>{edit ? "Stop editing" : "Edit profile"}</button>
-                <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded w-full">Balance: {profile.balance}</button>
+                <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded w-full" onClick={() => navigate("/wallet")}>Balance:<br/>{profile.balance}$</button>
                 <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded w-full" onClick={() => navigate("/sell")}>Sell Items</button>
                 <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded w-full" onClick={logOut}>Logout</button>
             </div>

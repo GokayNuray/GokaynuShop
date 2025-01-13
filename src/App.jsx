@@ -9,6 +9,7 @@ import {getOtherProfile, getProfile} from "./services/ProfileServices";
 import {ShopHeader} from "./components/ShopHeader";
 import {ItemPage} from "./components/ItemPage";
 import {ShopBody} from "./components/ShopBody";
+import {WalletPage} from "./components/WalletPage";
 
 function App() {
     const [profile, setProfile] = useState();
@@ -51,7 +52,8 @@ function App() {
                 <Route path={"/item/:id"} element={<ItemPage items={items} profile={profile} setProfile={setProfile}/>}/>
                 <Route path="/login" element={<LoginPage setProfile={setProfile}/>}/>
                 <Route path="/sell" element={<SellPage profile={profile} items={items} setItems={setItems}/>}/>
-                <Route path={"/cart"} element={<CartPage profile={profile} setProfile={setProfile} items={items}/>}/>
+                <Route path="/wallet" element={<WalletPage profile={profile} setProfile={setProfile}/>}/>
+                <Route path="/cart" element={<CartPage profile={profile} setProfile={setProfile} items={items}/>}/>
                 <Route path="/*" element={<h1>404 Not Found</h1>}/>
             </Routes>
         </BrowserRouter>

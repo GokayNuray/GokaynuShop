@@ -171,3 +171,14 @@ export function removeFromCart(id, item, callback) {
             callback(data);
         });
 }
+
+export function depositMoney(id, amount, callback) {
+    fetch(API + "deposit", {
+        method: "POST",
+        body: JSON.stringify({id: id, amount: amount}),
+    })
+        .then(response => response.json())
+        .then(data => {
+            callback(data);
+        });
+}
