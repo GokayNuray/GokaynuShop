@@ -71,3 +71,14 @@ export function removeShopItem(id, callback) {
             callback(data);
         });
 }
+
+export function purchaseItems(id, cart, callback) {
+    fetch("https://nameless.gokaynu.workers.dev/buy", {
+        method: "POST",
+        body: JSON.stringify({id, cart}),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            callback(data);
+        });
+}

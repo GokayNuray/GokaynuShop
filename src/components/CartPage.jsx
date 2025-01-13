@@ -1,16 +1,18 @@
 import {useEffect, useState} from "react";
 import {removeFromCart, saveProfile} from "../services/ProfileServices";
 import {ListItem} from "./ListItem";
+import {purchaseItems} from "../services/ShopServices";
 
 export function CartPage({profile, setProfile, items}) {
     const [total, setTotal] = useState(0);
     const [counts, setCounts] = useState({});
+    const [purchaseStatus, setPurchaseStatus] = useState("Finish Purchase");
 
     const cartItems = profile?.cart && items && items !== "wait" && Object.keys(profile.cart).map((key) => items.find(item => item.id === parseInt(key)));
 
 
     useEffect(() => {
-        if (profile?.cart && items) {
+        if (profile?.cart && items && items !== "wait") {
             const counts = {};
             let total = 0;
             Object.keys(profile.cart).forEach((key) => {
@@ -44,6 +46,30 @@ export function CartPage({profile, setProfile, items}) {
         });
     }
 
+    const handlePurchase = () => {
+        if (total > profile.balance) {
+            alert("Insufficient funds");
+            return;
+        }
+        setPurchaseStatus("Purchasing...");
+        const cart = {};
+        Object.keys(counts).forEach((key) => {
+            cart[key] = counts[key];
+        });
+        purchaseItems(profile.id, cart, (data) => {
+            if (data.error) {
+                alert(data.error);
+            } else {
+                alert("Congratulations! You have completed your purchase of non-existent items");
+                console.log(data);
+                profile.cart = {};
+                profile.balance = data.total;
+                saveProfile(profile);
+                setProfile({...profile});
+            }
+        });
+    }
+
     return (
         <div>
             <h1 className="text-4xl font-bold mt-10 m-4">Your Cart</h1>
@@ -56,6 +82,10 @@ export function CartPage({profile, setProfile, items}) {
                         )
                     })}
                     <div className="text-2xl font-bold mt-4">Total: ${total}</div>
+                    <button className="mx-auto block bg-blue-500 hover:bg-blue-700 text-white text-4xl font-bold mt-2 px-3 pb-2 rounded-xl shadow-lg transition duration-300 ease-in-out"
+                            onClick={handlePurchase} disabled={purchaseStatus === "Purchasing..."}>
+                        {purchaseStatus}
+                    </button>
                 </div>
              :
                     <h1 className="text-4xl">{(items === "wait" || profile === "wait") ? "Loading..." : "No items in cart"}</h1>
