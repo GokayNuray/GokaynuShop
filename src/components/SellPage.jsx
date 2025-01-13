@@ -3,6 +3,7 @@ import {createShopItem} from "../services/ShopServices";
 
 export function SellPage({profile, setItems}) {
     const [showSell, setShowSell] = useState(false);
+    const [sellStatus, setSellStatus] = useState("Sell");
     const [preview, setPreview] = useState(null);
 
     const handleFileChange = (e) => {
@@ -28,6 +29,7 @@ export function SellPage({profile, setItems}) {
                         const description = e.target[2].value;
                         const price = e.target[3].value;
                         const owner = profile.id;
+                        setSellStatus("Selling...");
                         createShopItem(owner, {name, description, price, avatar}, (data) => {
                             if (!(data.id)) {
                                 data.error ? alert(data.error) : alert("An error occurred");
@@ -55,7 +57,7 @@ export function SellPage({profile, setItems}) {
                                 <label className="mr-2">Price($)</label>
                                 <input required type="number" step="0.1"
                                        className="w-1/4 p-2 border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-                                <button className="bg-black text-white p-2 rounded-r font-bold">Sell</button>
+                                <button disabled={sellStatus !== "Sell"} className="bg-black text-white p-2 rounded-r font-bold">{sellStatus}</button>
                             </div>
                         </div>
                     </form>
