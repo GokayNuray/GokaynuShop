@@ -13,7 +13,7 @@ export function ListItem({item, count, setCount, onDelete}) {
                 <img src={item.img} alt={item.name} className="rounded-lg w-20 h-20"/>
                 <div>
                     <h1 className="text-2xl font-bold">{item.name}</h1>
-                    <p className="text-lg text-gray-700">{item.description}</p>
+                    <p className="text-lg text-gray-700">{item.description.length > 150 ? item.description.slice(0, 150) + "..." : item.description}</p>
                     <p className="text-lg text-blue-600">${item.price}</p>
                 </div>
             </div>

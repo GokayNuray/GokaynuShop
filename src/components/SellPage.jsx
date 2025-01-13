@@ -14,20 +14,27 @@ export function SellPage({profile, items, setItems}) {
     };
 
     const myItems = items && items !== "wait" && items.filter((item) => item.owner === profile.id);
-    sortItems(myItems, 3);
+    myItems && sortItems(myItems, 3);
 
     return (
         <div>
-            <div className="flex-col mt-10 px-2">
-                <h1 className="pl-4 mb-2 text-4xl font-bold">Your items</h1>
-                {myItems && myItems.map((item) => {
-                        return <ListItem key={item.id} item={item} count={-1}/>;
-                    }
-                )}
+            <div className="flex items-center mt-10 px-2">
+                <h1 className="text-4xl font-bold">Your items</h1>
+                <button onClick={() => setShowSell(true)}
+                        className="bg-blue-500 hover:bg-blue-700 text-white text-4xl font-bold ml-2 mt-2 px-3 pb-1 rounded-xl shadow-lg transition duration-300 ease-in-out">
+                    +
+                </button>
             </div>
-            <button onClick={() => setShowSell(true)}
-                    className="bg-black text-white mt-5 size-64 font-bold">Sell an item
-            </button>
+            {myItems ?
+                <div className="flex-col mt-3 px-5">
+                    {myItems && myItems.map((item) => {
+                            return <ListItem key={item.id} item={item} count={-1}/>;
+                        }
+                    )}
+                </div>
+                :
+                <h1 className="text-4xl font-bold">{items === "wait" ? "Loading..." : "No items to show"}</h1>
+            }
             {showSell &&
                 <div className="fixed bg-cyan-500 w-1/2 left-1/4 top-1/4 mt-5 p-5 rounded flex gap-4">
                     <form onSubmit={(e) => {
