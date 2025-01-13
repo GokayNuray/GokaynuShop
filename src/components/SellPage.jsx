@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {createShopItem} from "../services/ShopServices";
 
-export function SellPage({profile}) {
+export function SellPage({profile, setItems}) {
     const [showSell, setShowSell] = useState(false);
     const [preview, setPreview] = useState(null);
 
@@ -33,6 +33,7 @@ export function SellPage({profile}) {
                                 data.error ? alert(data.error) : alert("An error occurred");
                             } else {
                                 alert("Item created successfully");
+                                setItems(null);
                                 window.location.reload();
                             }
                         });
