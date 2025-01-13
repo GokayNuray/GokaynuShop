@@ -1,12 +1,10 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getOtherProfile} from "../services/ProfileServices";
 
 export function ItemCard({item, i}) {
+    const sellerProfile = item.sellerProfile;
     const navigate = useNavigate();
     const [style, setStyle] = useState(null);
-    const [sellerProfile, setSellerProfile] = useState(null);
-
     const handleClick = () => {
         const newStyle = {
             transform: `translateX(100%) translateY(100%) translateY(${window.scrollY}px)scale(3)`
@@ -14,10 +12,6 @@ export function ItemCard({item, i}) {
         setStyle(newStyle);
         setTimeout(() => navigate("/item/" + item.id), 700);
     }
-
-    useEffect(() => {
-        item.owner && getOtherProfile(item.owner, setSellerProfile);
-    }, [item.owner]);
 
     useEffect(() => {
         setStyle(i < 0 ? {

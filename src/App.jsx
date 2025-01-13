@@ -5,7 +5,7 @@ import {SellPage} from "./components/SellPage";
 import {CartPage} from "./components/CartPage";
 import {useEffect, useState} from "react";
 import {getShopItems} from "./services/ShopServices";
-import {getProfile} from "./services/ProfileServices";
+import {getOtherProfile, getProfile} from "./services/ProfileServices";
 import {ShopHeader} from "./components/ShopHeader";
 import {ItemPage} from "./components/ItemPage";
 import {ShopBody} from "./components/ShopBody";
@@ -18,7 +18,28 @@ function App() {
 
     useEffect(() => {
         getProfile(setProfile);
-        getShopItems(setItems);
+        getShopItems((items) => {
+            if (items === "wait") {
+                setItems("wait");
+                return;
+            }
+            const otherProfiles = {};
+            items.forEach((item) => {
+                if (!otherProfiles[item.owner]) {
+                    otherProfiles[item.owner] = [item];
+                } else {
+                    otherProfiles[item.owner].push(item);
+                }
+            });
+            Object.keys(otherProfiles).forEach((key) => {
+                getOtherProfile(key, (profile) => {
+                    otherProfiles[key].forEach((item) => {
+                        item.sellerProfile = profile;
+                    });
+                    setItems([...items]);
+                });
+            });
+        });
     }, []);
 
     return (
