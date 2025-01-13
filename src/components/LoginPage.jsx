@@ -11,7 +11,7 @@ export function LoginPage({setProfile}) {
     useEffect(() => {
         if (!response || response === "wait") return;
         if (response.name) {
-            saveLogin(username, password);
+            saveLogin({name : username, password: password});
             setProfile(response);
             saveProfile(response);
             navigate("/");
