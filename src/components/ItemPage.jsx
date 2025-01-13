@@ -1,11 +1,10 @@
 import {useEffect, useState} from "react";
-import {addToCart, getOtherProfile, saveProfile} from "../services/ProfileServices";
+import {addToCart, saveProfile} from "../services/ProfileServices";
 import {useNavigate, useParams} from "react-router-dom";
 
 export function ItemPage({items, profile, setProfile}) {
     const {id} = useParams();
     const item = items && items !== "wait" && items.find(item => item.id === parseInt(id));
-    const [seller, setSeller] = useState(null);
     const [cartStatus, setCartStatus] = useState("Add to Cart");
     const navigate = useNavigate();
 
@@ -15,11 +14,6 @@ export function ItemPage({items, profile, setProfile}) {
             if (cart[id]) setCartStatus("In Cart");
         }
     }, [id, items, profile]);
-
-    useEffect(() => {
-        if (item || !items || items === "wait") return;
-        getOtherProfile(item.owner, setSeller);
-    }, [id, item, items]);
 
     const handleClick = () => {
         if (cartStatus === "Add to Cart") {
@@ -50,12 +44,12 @@ export function ItemPage({items, profile, setProfile}) {
                 <h1 className="text-3xl font-bold mb-4">{item.name}</h1>
                 <img className="rounded-lg mb-4" src={item.img} alt={item.name}/>
                 <p className="text-lg text-gray-700 mb-4">{item.description}</p>
-                {seller && (seller === "wait" ?
+                {item.sellerProfile && (item.sellerProfile === "wait" ?
                     <p>Loading...</p>
                     :
 
-                    <p className="text-2xl mb-4"><b>Sold by:</b> {seller.name} <img src={seller.profilePic}
-                                                                                    alt={seller.name}
+                    <p className="text-2xl mb-4"><b>Sold by:</b> {item.sellerProfile.name} <img src={item.sellerProfile.profilePic}
+                                                                                    alt={item.sellerProfile.name}
                                                                                     className="size-12 inline-block rounded-full"/>
                     </p>)}
                 <p className="text-right text-2xl text-blue-600 mb-4">${item.price}</p>
