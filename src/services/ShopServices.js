@@ -20,7 +20,7 @@ function fetchShopItems(callback) {
         .then((data) => {
             let items = [];
             for (let item of data.data) {
-                items.push(new ShopItem(item.id, item.name, item.price, item.description, API + "avatars/items/" + item.id, item.date, item.owner));
+                items.push(new ShopItem(item.id, item.name, item.price, item.description, API + "avatars/items/" + item.id, new Date(item.created_at), item.owner));
             }
             callback(items);
         });
