@@ -57,7 +57,7 @@ export function ShopHeader({sortMethod, setSortMethod, setSearch, profile}) {
                         <h1 className="text-white font-bold mr-5">Loading...</h1>
                         :
                         <div className="flex">
-                            <button className="bg-white text-black font-bold py-2 px-4 rounded-full mr-5" onClick={() => navigate("/cart")}>
+                            <button disabled={Object.keys(profile.cart).length < 1} className="bg-white text-black font-bold py-2 px-4 rounded-full mr-5" onClick={() => navigate("/cart")}>
                                 {Object.keys(profile.cart).length ? "Cart: " + Object.keys(profile.cart).length + " items" : "Empty cart"}
                             </button>
                             <Profile profile={profile}/>

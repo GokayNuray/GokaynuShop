@@ -6,6 +6,8 @@ export function CartPage({profile, setProfile, items}) {
     const [total, setTotal] = useState(0);
     const [counts, setCounts] = useState({});
 
+    const cartItems = profile?.cart && items && items !== "wait" && Object.keys(profile.cart).map((key) => items.find(item => item.id === parseInt(key)));
+
 
     useEffect(() => {
         if (profile?.cart && items) {
@@ -45,20 +47,19 @@ export function CartPage({profile, setProfile, items}) {
     return (
         <div>
             <h1 className="text-4xl font-bold mt-10 m-4">Your Cart</h1>
-            {(profile && items && profile !== "wait" && items !== "wait") ? (
+            {cartItems?.length > 0 ?
                 <div className="px-4">
-                    {Object.keys(profile.cart).map((key) => {
-                        const item = items.find(item => item.id === parseInt(key));
+                    {cartItems.map((item) => {
                         return (
-                            <ListItem key={key} item={item} count={counts[key] || 0} setCount={(count) => setCount(item, count)}
+                            <ListItem key={item.id} item={item} count={counts[item.id] || 0} setCount={(count) => setCount(item, count)}
                                       onDelete={() => handleDelete(item)}/>
                         )
                     })}
                     <div className="text-2xl font-bold mt-4">Total: ${total}</div>
                 </div>
-            ) : (
-                    <h1 className="text-4xl">Loading...</h1>
-            )}
+             :
+                    <h1 className="text-4xl">{(items === "wait" || profile === "wait") ? "Loading..." : "No items in cart"}</h1>
+            }
         </div>
     );
 

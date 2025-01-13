@@ -37,7 +37,7 @@ export function SellPage({profile, items, setItems}) {
                     +
                 </button>
             </div>
-            {myItems ?
+            {myItems?.length > 0 ?
                 <div className="flex-col mt-3 px-5">
                     {myItems && myItems.map((item) => {
                             return <ListItem key={item.id} item={item} count={-1} onDelete={() => handleRemove(item.id)}/>
@@ -58,9 +58,9 @@ export function SellPage({profile, items, setItems}) {
                                 alert("Please select a valid image file");
                                 return;
                             }
-                            const name = e.target[1].value;
-                            const description = e.target[2].value;
-                            const price = e.target[3].value;
+                            const name = e.target[2].value;
+                            const description = e.target[3].value;
+                            const price = e.target[4].value;
                             const owner = profile.id;
                             setSellStatus("Selling...");
                             createShopItem(owner, {name, description, price, avatar}, (data) => {
