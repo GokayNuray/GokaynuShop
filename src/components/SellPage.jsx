@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {createShopItem} from "../services/ShopServices";
+import {createShopItem, removeShopItem} from "../services/ShopServices";
 import {ListItem} from "./ListItem";
 import {sortItems} from "../utils/ShopUtils";
 
@@ -12,6 +12,18 @@ export function SellPage({profile, items, setItems}) {
         const file = e.target.files[0];
         setPreview(URL.createObjectURL(file));
     };
+
+    const handleRemove = (id) => {
+        removeShopItem(id, (data) => {
+            if (data.error) {
+                alert(data.error);
+            } else {
+                alert("Item removed from cart");
+                setItems(null);
+                window.location.reload();
+            }
+        });
+    }
 
     const myItems = items && items !== "wait" && items.filter((item) => item.owner === profile.id);
     myItems && sortItems(myItems, 3);
@@ -28,7 +40,7 @@ export function SellPage({profile, items, setItems}) {
             {myItems ?
                 <div className="flex-col mt-3 px-5">
                     {myItems && myItems.map((item) => {
-                            return <ListItem key={item.id} item={item} count={-1}/>;
+                            return <ListItem key={item.id} item={item} count={-1} onDelete={() => handleRemove(item.id)}/>
                         }
                     )}
                 </div>

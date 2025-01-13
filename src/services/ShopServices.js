@@ -60,3 +60,14 @@ export function createShopItem(owner, item, callback) {
             callback(data);
         });
 }
+
+export function removeShopItem(id, callback) {
+    fetch("https://nameless.gokaynu.workers.dev/remove-item", {
+        method: "POST",
+        body: JSON.stringify({id}),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            callback(data);
+        });
+}
