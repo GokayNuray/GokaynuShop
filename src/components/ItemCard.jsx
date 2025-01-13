@@ -19,7 +19,7 @@ export function ItemCard({item, i}) {
                 transform: "translateX(" + ((-i - 1) % 3) * 100 + "%) translateY(" + Math.floor((-i - 1) / 3) * 100 + "%)",
             } : {
                 transform: "translateX(" + (i % 3) * 100 + "%) translateY(" + Math.floor(i / 3) * 100 + "%)",
-                zIndex: -i
+                zIndex: -i -1
             }
         );
     }, [i]);

@@ -18,7 +18,7 @@ export function SellPage({profile, items, setItems}) {
             if (data.error) {
                 alert(data.error);
             } else {
-                alert("Item removed from cart");
+                alert("Item removed from sale");
                 setItems(null);
                 window.location.reload();
             }
