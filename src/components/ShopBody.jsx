@@ -4,7 +4,7 @@ import {ItemCard} from "./ItemCard";
 export function ShopBody({sortMethod, search, items}) {
     const tempItems = items && items !== "wait" ? [...items] : [];
     sortItems(tempItems, sortMethod);
-    const filteredItems = tempItems.filter(item => item.name.includes(search));
+    const filteredItems = tempItems.filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
 
     return (
         items && (items === "wait" ?
@@ -16,7 +16,7 @@ export function ShopBody({sortMethod, search, items}) {
                 <div className="w-full h-full bg-cyan-500">
                     {items.map((item) => (
                         <ItemCard item={item}
-                                  i={item.name.includes(search) ? filteredItems.indexOf(item) : -tempItems.indexOf(item)}
+                                  i={item.name.toLowerCase().includes(search.toLowerCase()) ? filteredItems.indexOf(item) : (-tempItems.indexOf(item) - 1)}
                                   key={item.id}/>
                     ))}
                 </div>

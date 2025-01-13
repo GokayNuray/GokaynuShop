@@ -20,7 +20,7 @@ function fetchShopItems(callback) {
         .then((data) => {
             let items = [];
             for (let item of data.data) {
-                items.push(new ShopItem(item.id, item.name, item.price, item.description, API + "avatars/items/" + item.id, item.date, item.owner));
+                items.push(new ShopItem(item.id, item.name, item.price, item.description, API + "avatars/items/" + item.id, new Date(item.created_at), item.owner));
             }
             callback(items);
         });
@@ -54,6 +54,17 @@ export function createShopItem(owner, item, callback) {
     fetch("https://nameless.gokaynu.workers.dev/create-item", {
         method: "POST",
         body: formData,
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            callback(data);
+        });
+}
+
+export function removeShopItem(id, callback) {
+    fetch("https://nameless.gokaynu.workers.dev/remove-item", {
+        method: "POST",
+        body: JSON.stringify({id}),
     })
         .then((response) => response.json())
         .then((data) => {

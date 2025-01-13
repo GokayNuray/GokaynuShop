@@ -1,10 +1,6 @@
 export const API = "https://nameless.gokaynu.workers.dev/"
 
-export function saveLogin(name, password) {
-    const login = {
-        name: name,
-        password: password,
-    }
+export function saveLogin(login) {
     localStorage.setItem("login", JSON.stringify(login));
 }
 
