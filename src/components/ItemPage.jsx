@@ -16,6 +16,10 @@ export function ItemPage({items, profile, setProfile}) {
     }, [id, items, profile]);
 
     const handleClick = () => {
+        if (!profile) {
+            alert("You need to be logged in to add items to cart");
+            return;
+        }
         if (cartStatus === "Add to Cart") {
             setCartStatus("Adding...");
             addToCart(profile.id, item, (data) => {
