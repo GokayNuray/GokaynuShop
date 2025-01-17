@@ -9,7 +9,7 @@ const sortMethods = [
     "Oldest first"
 ];
 
-export function ShopHeader({sortMethod, setSortMethod, setSearch, profile}) {
+export function ShopHeader({sortMethod, setSortMethod, setSearch, profile, items, setItems}) {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -60,7 +60,7 @@ export function ShopHeader({sortMethod, setSortMethod, setSearch, profile}) {
                             <button disabled={Object.keys(profile.cart).length < 1} className="bg-white text-black font-bold py-2 px-4 rounded-full mr-5" onClick={() => navigate("/cart")}>
                                 {Object.keys(profile.cart).length ? "Cart: " + Object.keys(profile.cart).length + " items" : "Empty cart"}
                             </button>
-                            <Profile profile={profile}/>
+                            <Profile profile={profile} items={items} setItems={setItems}/>
                         </div>
                     :
                     <button className="bg-white text-black font-bold py-2 px-4 rounded-full mr-5"

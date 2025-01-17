@@ -1,8 +1,17 @@
-import {API, changeAvatar, changeName, getLogin, logOut, saveLogin, saveProfile} from "../services/ProfileServices";
+import {
+    API,
+    changeAvatar,
+    changeName,
+    getLogin,
+    logOut,
+    saveLogin,
+    saveOtherProfile,
+    saveProfile
+} from "../services/ProfileServices";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
-export function Profile({profile}) {
+export function Profile({profile, items, setItems}) {
     const [edit, setEdit] = useState(false);
     const [uploadAvatar, setUploadAvatar] = useState(false);
     const [newName, setNewName] = useState("");
@@ -42,6 +51,15 @@ export function Profile({profile}) {
         if (profile.id === parseInt(data.id)) {
             profile.profilePic = API + "avatars/" + data.id;
             saveProfile(profile);
+            saveOtherProfile({name: profile.name, profilePic: profile.profilePic}, profile.id);
+            if (items?.length !== 0) {
+                items.forEach((item) => {
+                    if (item.owner === profile.id) {
+                        item.sellerProfile.profilePic = profile.profilePic;
+                    }
+                });
+                setItems([...items]);
+            }
             alert("Avatar changed successfully. The changes may take a minute to show up.");
             window.location.reload();
         }
@@ -70,33 +88,47 @@ export function Profile({profile}) {
 
     return (
         <div className="relative inline-block size-16 group rounded">
-            <img className={"size-full rounded-full" + (edit ? " animate-pulse cursor-pointer" : "")} src={profile.profilePic}
+            <img className={"size-full rounded-full" + (edit ? " animate-pulse cursor-pointer" : "")}
+                 src={profile.profilePic}
                  onClick={handleAvatarClick}
                  alt="pfp"/>
             <div
                 className="absolute left-0 bg-white opacity-0 overflow-hidden h-0 group-hover:h-fit group-hover:opacity-100 w-32 -translate-x-16 transition duration-500 flex flex-col items-center shadow-lg border-0 group-hover:border border-gray-300 rounded-lg p-0 group-hover:p-2 space-y-1">
-                <input disabled={!edit} className={"text-center h-fit w-full p-1 rounded" + (edit && " border border-gray-300")} value={edit ? newName : profile.name}
+                <input disabled={!edit}
+                       className={"text-center h-fit w-full p-1 rounded" + (edit && " border border-gray-300")}
+                       value={edit ? newName : profile.name}
                        onChange={(e) => setNewName(e.target.value)}/>
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded w-full"
                         onClick={toggleEdit}>{edit ? "Stop editing" : "Edit profile"}</button>
-                <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded w-full" onClick={() => navigate("/wallet")}>Balance:<br/>{profile.balance}$</button>
-                <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded w-full" onClick={() => navigate("/sell")}>Sell Items</button>
-                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded w-full" onClick={logOut}>Logout</button>
+                <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded w-full"
+                        onClick={() => navigate("/wallet")}>Balance:<br/>{profile.balance}$
+                </button>
+                <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded w-full"
+                        onClick={() => navigate("/sell")}>Sell Items
+                </button>
+                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded w-full"
+                        onClick={logOut}>Logout
+                </button>
             </div>
             {uploadAvatar && (
-                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+                <div
+                    className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white p-6 rounded shadow-lg text-center">
                         <input type="file" id="fileInput" className="hidden" onChange={handleFileChange}/>
-                        <label htmlFor="fileInput" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
+                        <label htmlFor="fileInput"
+                               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
                             Choose File
                         </label>
                         {preview && (
                             <div className="mt-4">
                                 <img src={preview} alt="Preview" className="mx-auto mb-4 size-96"/>
-                                <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2" onClick={handleConfirmUpload}>
+                                <button
+                                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
+                                    onClick={handleConfirmUpload}>
                                     Confirm
                                 </button>
-                                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={handleCancelUpload}>
+                                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                        onClick={handleCancelUpload}>
                                     Cancel
                                 </button>
                             </div>

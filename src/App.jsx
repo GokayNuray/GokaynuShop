@@ -46,7 +46,7 @@ function App() {
 
     return (
         <BrowserRouter>
-            <ShopHeader sortMethod={sortMethod} setSortMethod={setSortMethod} setSearch={setSearch} profile={profile} />
+            <ShopHeader sortMethod={sortMethod} setSortMethod={setSortMethod} setSearch={setSearch} profile={profile} items={items} setItems={setItems}/>
             <Routes>
                 <Route path="/" element={<ShopBody items={items} sortMethod={sortMethod} search={search}/>}/>
                 <Route path={"/item/:id"} element={<ItemPage items={items} profile={profile} setProfile={setProfile}/>}/>

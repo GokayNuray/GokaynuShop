@@ -112,7 +112,7 @@ export function changeAvatar(id, avatar, callback) {
         });
 }
 
-function saveOtherProfile(profile, id) {
+export function saveOtherProfile(profile, id) {
     sessionStorage.setItem("profile" + id, JSON.stringify(profile));
 }
 
