@@ -58,6 +58,10 @@ export function createProfile(login, callback) {
     })
         .then(response => response.json())
         .then(data => {
+            if (data.error) {
+                callback(data);
+                return;
+            }
             fixImagePaths(data);
             data.cart = JSON.parse(data.cart);
             callback(data);
@@ -74,6 +78,10 @@ export function fetchProfile(login, callback) {
     })
         .then(response => response.json())
         .then(data => {
+            if (data.error) {
+                callback(data);
+                return;
+            }
             fixImagePaths(data);
             data.cart = JSON.parse(data.cart);
             callback(data);
