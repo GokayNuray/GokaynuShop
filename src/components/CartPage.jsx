@@ -77,18 +77,21 @@ export function CartPage({profile, setProfile, items}) {
                 <div className="px-4">
                     {cartItems.map((item) => {
                         return (
-                            <ListItem key={item.id} item={item} count={counts[item.id] || 0} setCount={(count) => setCount(item, count)}
+                            <ListItem key={item.id} item={item} count={counts[item.id] || 0}
+                                      setCount={(count) => setCount(item, count)}
                                       onDelete={() => handleDelete(item)}/>
                         )
                     })}
                     <div className="text-2xl font-bold mt-4">Total: ${total}</div>
-                    <button className="mx-auto block bg-blue-500 hover:bg-blue-700 text-white text-4xl font-bold mt-2 px-3 pb-2 rounded-xl shadow-lg transition duration-300 ease-in-out"
-                            onClick={handlePurchase} disabled={purchaseStatus === "Purchasing..."}>
+                    <button
+                        className="mx-auto block bg-blue-500 hover:bg-blue-600 text-white text-4xl font-bold px-6 py-3 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105"
+                        onClick={handlePurchase}
+                        disabled={purchaseStatus === "Purchasing..."}>
                         {purchaseStatus}
                     </button>
                 </div>
-             :
-                    <h1 className="text-4xl">{(items === "wait" || profile === "wait") ? "Loading..." : "No items in cart"}</h1>
+                :
+                <h1 className="text-4xl">{(items === "wait" || profile === "wait") ? "Loading..." : "No items in cart"}</h1>
             }
         </div>
     );
