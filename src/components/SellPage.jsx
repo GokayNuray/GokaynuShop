@@ -74,7 +74,7 @@ export function SellPage({profile, items, setItems}) {
                             });
                         }} className="flex flex-row h-full w-full">
                             <div className="flex flex-col items-center w-1/2">
-                                <img src={preview || "https://via.placeholder.com/150"} alt="Item" className="w-full rounded-lg"/>
+                                <img src={preview || "https://placehold.co/400"} alt="Item" className="max-w-full max-h-96 rounded-lg"/>
                                 <input required type="file" accept="image/*" className="mt-2" onChange={handleFileChange}/>
                             </div>
                             <div className="ml-5 flex flex-col h-full w-1/2">
