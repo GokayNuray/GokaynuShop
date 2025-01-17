@@ -70,7 +70,7 @@ export function Profile({profile}) {
 
     return (
         <div className="relative inline-block size-16 group rounded">
-            <img className={"rounded-full" + (edit ? " animate-pulse cursor-pointer" : "")} src={profile.profilePic}
+            <img className={"size-full rounded-full" + (edit ? " animate-pulse cursor-pointer" : "")} src={profile.profilePic}
                  onClick={handleAvatarClick}
                  alt="pfp"/>
             <div
@@ -92,7 +92,7 @@ export function Profile({profile}) {
                         </label>
                         {preview && (
                             <div className="mt-4">
-                                <img src={preview} alt="Preview" className="mx-auto mb-4"/>
+                                <img src={preview} alt="Preview" className="mx-auto mb-4 size-96"/>
                                 <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2" onClick={handleConfirmUpload}>
                                     Confirm
                                 </button>
