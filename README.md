@@ -1,31 +1,18 @@
-# Create React App
+# [Gokaynu Shop](https://shop.gokaynu.com)
 
-This directory is a brief example of a [Create React App](https://github.com/facebook/create-react-app) site that can be deployed to Vercel with zero configuration.
+This website is an e-shop app created with React. It is not intended for real shopping and I only created it to learn how to use React.
 
-## Deploy Your Own
+## Features
 
-Deploy your own Create React App project with Vercel.
+### Profiles
+- Users can register a new account or login to their account
+- Login information is saved in local storage to automatically login 
+- Users can change the names or profile pictures
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/vercel/tree/main/examples/create-react-app&template=create-react-app)
-
-_Live Example: https://create-react-template.vercel.app/_
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes. You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode. See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.
-
-It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified and the filenames include the hashes.
+### Shop
+- Users can view all the sold items on the main page
+- Items can be filtered by their name, description or the name of the seller
+- Items can be sorted according to their price or creation date
+- Users can add items to their cart and buy them in bulk
+- Users can sell their own items
+- When an item is sold, its seller earns money and the buyer loses money
